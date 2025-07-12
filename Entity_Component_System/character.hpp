@@ -1,14 +1,16 @@
 #pragma once
 
 #include "entity_base.hpp"
-
+#include "../Sprite_System/direction.hpp"
+#include "../Sprite_System/sprite_sheet.hpp"
+#include "entity_types.hpp"
 class Character: public EntityBase
 {
     friend EntityManager;
 
     public:
         Character(EntityManager* l_entityMgr);
-        virtual ~Character();
+        virtual ~Character(){};
         void Move(const Direction& l_dir);
         void Jump();
         void Attack();
@@ -22,5 +24,9 @@ class Character: public EntityBase
         void UpdateAttackAABB();
         void Animate();
         SpriteSheet m_spriteSheet;
+        float m_jumpVelocity;
+        int m_hitpoints;
+        sf::FloatRect m_attackAABB;
+        sf::Vector2f m_attackAABBoffSet;
         
 };
