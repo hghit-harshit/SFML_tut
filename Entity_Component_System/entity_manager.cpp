@@ -1,11 +1,17 @@
 #include "entity_manager.hpp"
+#include "../shared_context.hpp"
+#include "../Window_System/window.hpp"
+#include "player.hpp"
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 EntityManager::EntityManager(SharedContext* l_context,
 unsigned int l_maxEntities):m_context(l_context),
 m_maxEntities(l_maxEntities),m_idCounter(0)
 {
     //LoadEnemyTypes("EnemyList.list");
-    //RegisterEntity<Player>(EntityType::Player);
+    RegisterEntity<Player>(EntityType::Player);
     //RegisterEntity<Enemy>(EntityType::Enemy);
 }
 
@@ -82,6 +88,8 @@ void EntityManager::Draw()
         itr.second->Draw(wind);
     }
 }
+
+SharedContext* EntityManager::GetContext(){ return m_context;}
 
 void EntityManager::Purge()
 {

@@ -1,7 +1,8 @@
 #pragma once
 #include "entity_base.hpp"
-#include "../Sprite_System/sprite_sheet.hpp"
+static_assert(sizeof(EntityBase*) > 0, "EntityBase is not visible here");
 #include <functional>
+#include <unordered_map>
 
 using EntityContainer = std::unordered_map<unsigned int, EntityBase*>;
 using EntityFactory = std::unordered_map<EntityType,std::function<EntityBase*(void)>>;
@@ -32,7 +33,7 @@ class EntityManager
         m_entityFactory[l_type] = [this]()->EntityBase*
         {
             return new T(this);
-        }
+        };
     }
 
     void ProcessRemovals();

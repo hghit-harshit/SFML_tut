@@ -2,12 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include "entity_types.hpp"
 #include "../Map_System/tile.hpp"
-#include "../Map_System/map.hpp"
-#include "entity_manager.hpp"
-#include "../shared_context.hpp"
+#include <vector>
 
 class EntityManager;
-
 struct CollisionElement
 {
     CollisionElement(float l_area, TileInfo* l_info,
@@ -29,7 +26,7 @@ class EntityBase
     friend class EntityManager;
     public:
         EntityBase(EntityManager* l_entityMgr);
-        virtual ~EntityBase();
+        virtual ~EntityBase(){};
 
         void SetPosition(const float& l_x, const float& l_y);
         void SetPosition(const sf::Vector2f& l_pos);
@@ -39,6 +36,8 @@ class EntityBase
         std::string GetName();
         unsigned int GetId();
         EntityType GetType();
+        EntityState GetState();
+        sf::Vector2f GetPosition();
         
         void Move(float l_x, float l_y);
         void AddVelocity(float l_x, float l_y);

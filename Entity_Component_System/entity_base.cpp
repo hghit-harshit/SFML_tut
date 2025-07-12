@@ -1,4 +1,6 @@
 #include "entity_base.hpp"
+#include "../Map_System/map.hpp"
+#include "entity_manager.hpp"
 #include <math.h>
 bool SortCollisions(const CollisionElement& l_1, const CollisionElement& l_2)
 {
@@ -35,9 +37,16 @@ void EntityBase::SetState(const EntityState& l_state)
     m_state = l_state;
 }
 
+void EntityBase::SetAcceleration(float l_x, float l_y)
+{
+    m_acceleration = sf::Vector2f(l_x,l_y);
+}
+
 std::string EntityBase::GetName(){ return m_name; }
 unsigned int EntityBase::GetId(){ return m_id; }
 EntityType EntityBase::GetType(){ return m_type; }
+EntityState EntityBase::GetState(){ return m_state; }
+sf::Vector2f EntityBase::GetPosition(){ return m_position;}
 
 void EntityBase::Move(float l_x,float l_y)
 {
@@ -151,8 +160,8 @@ void EntityBase::UpdateAABB()
 
 void EntityBase::CheckCollisions()
 {
-    Map* game_map = m_entityManager->GetContext()->m_gameMap;
-    unsigned int tileSize;// = gameMap->GetTileSize();
+    Map* gameMap = m_entityManager->GetContext()->m_gameMap;
+    unsigned int tileSize= gameMap->GetTileSize();
 
     int fromX = floor(m_AABB.left/tileSize);
     int toX = floor((m_AABB.left + m_AABB.width)/tileSize);
@@ -163,7 +172,7 @@ void EntityBase::CheckCollisions()
     {
         for(int y = fromY; y <= toY; ++y)
         {
-            Tile* tile = game_map->GetTile(x,y);
+            Tile* tile = gameMap->GetTile(x,y);
             if(!tile) continue;
             sf::FloatRect tileBounds(x*tileSize, y*tileSize,tileSize,tileSize);
             sf::FloatRect intersection;
@@ -176,7 +185,7 @@ void EntityBase::CheckCollisions()
 
             if(tile->m_warp && m_type == EntityType::Player)
             {
-                game_map->LoadNext();
+                gameMap->LoadNext();
             }
 
         }
@@ -188,8 +197,8 @@ void EntityBase::ResolveCollision()
     if(m_collisions.empty())return;
 
     std::sort(m_collisions.begin(),m_collisions.end(),SortCollisions);
-    //Map* gameMap = m_entityManger->GetContext()->m_gameMap;
-    unsigned int tileSize; //= gameMap->GetTilsSize();
+    Map* gameMap = m_entityManager->GetContext()->m_gameMap;
+    unsigned int tileSize = gameMap->GetTileSize();
 
     for(auto& itr : m_collisions)
     {
