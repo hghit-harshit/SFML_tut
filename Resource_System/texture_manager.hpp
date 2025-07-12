@@ -1,19 +1,20 @@
+#pragma once
 #include "SFML/Graphics/Texture.hpp"
 #include "resource_manager.hpp"
-
+#include <iostream>
 /**
  * @brief It manages texture(wow shocker)
  * 
  */
-class TextureManager : public ResourceManager<TextureManager*,sf::Texture>
+class TextureManager : public ResourceManager<TextureManager,sf::Texture>
 {
     public :
-        TextureManager():ResourceManager("texture.cfg"){}
+        TextureManager():ResourceManager("resources/textures.cfg"){}
 
         sf::Texture* Load(const std::string& l_path)
         {
             sf::Texture* texture = new sf::Texture();
-            if(!texture->loadFromFile(Utils::GetWorkingDirectory() + l_path))
+            if(!texture->loadFromFile(l_path))//Utils::GetWorkingDirectory() + l_path
             {
                 delete texture;
                 texture = nullptr;

@@ -4,7 +4,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-
+#include <iostream>
 template <typename Derived, typename T>
 class ResourceManager
 {
@@ -33,7 +33,7 @@ private:
      * @brief
      *
      */
-    std::unordered_map<std::string, std::pair<T *, unsigned int>> m_resources;
+    std::unordered_map<std::string, std::pair<T*, unsigned int>> m_resources;
     // we are storting resources as pair of resource name and pair of resource and its number of uses
     std::unordered_map<std::string, std::string> m_paths;
     // storting path as pair of resource name and path
@@ -43,16 +43,16 @@ private:
 
 // this is curiously recurring template pattern
 template <typename Derived, typename T>
-T *ResourceManager<Derived, T>::Load(const std::string &l_path)
+T* ResourceManager<Derived, T>::Load(const std::string &l_path)
 {
-    return static_cast<Derived *>(this)->Load(l_path);
+    return static_cast<Derived*>(this)->Load(l_path);
 }
 
 /**
  * @return std::pair<T *, unsigned int>* - pair of resource and its number of uses of given name
  */
 template <typename Derived, typename T>
-std::pair<T *, unsigned int> *ResourceManager<Derived, T>::Find(const std::string &l_id)
+std::pair<T*, unsigned int>* ResourceManager<Derived, T>::Find(const std::string &l_id)
 {
     auto itr = m_resources.find(l_id);
     return (itr != m_resources.end() ? &itr->second : nullptr);
@@ -73,7 +73,7 @@ bool ResourceManager<Derived, T>::Unload(const std::string &l_id)
     }
     delete itr->second.first;
     m_resources.erase(itr);
-    return ture;
+    return true;
 }
 
 /**
@@ -83,7 +83,7 @@ template <typename Derived, typename T>
 T *ResourceManager<Derived, T>::GetResource(const std::string &l_id)
 {
     auto res = Find(l_id);
-    return (res ? res.first : nullptr);
+    return (res ? res->first : nullptr);
 }
 
 /**
@@ -120,12 +120,12 @@ bool ResourceManager<Derived, T>::RequireResource(const std::string &l_id)
     {
         return false;
     }
-    auto rescource = Load(path->second);
+    auto resource = Load(path->second);
     if (!resource)
     {
-        return flase;
+        return false;
     }
-    m_resources.emplace_back(l_id, std::make_pair(resource, 1));
+    m_resources.emplace(l_id, std::make_pair(resource, 1));
     return true;
 }
 
@@ -141,7 +141,7 @@ bool ResourceManager<Derived, T>::ReleaseResource(const std::string &l_id)
     auto res = Find(l_id);
     if (!res)
     {
-        return flase;
+        return false;
     }
 
     --res->second;
@@ -173,21 +173,21 @@ template <typename Derived, typename T>
 void ResourceManager<Derived, T>::LoadPaths(const std::string &l_pathFile)
 {
     std::ifstream paths;
-    paths.open(l_pathFile)//paths.open(Utils::GetWorkingDirectory + l_pathFile);
-    if (!paths.is_open())
+    paths.open(l_pathFile);//paths.open(Utils::GetWorkingDirectory + l_pathFile);
+    if(!paths.is_open())
     {
         std::cerr << "Cannot open path file " << l_pathFile << '\n';
         return;
     }
 
     std::string line;
-    while (getline(line, paths))
+    while (getline(paths, line))
     {
-        std::stringstream keystream(path);
+        std::stringstream keystream(line);
         std::string pathName;
         std::string path;
         keystream >> pathName;
         keystream >> path;
-        m_paths.emplace_back(pathName, path);
+        m_paths.emplace(pathName, path);
     }
 }
