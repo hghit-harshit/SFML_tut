@@ -1,6 +1,9 @@
 #include "map.hpp"
 #include <math.h>
-
+#include "../Resource_System/texture_manager.hpp"
+#include <iostream>
+#include <fstream>
+#include <sstream>
 Map::Map(SharedContext* l_context, BaseState* l_currentState)
 :m_context(l_context),m_defaultTile(l_context),
 m_maxMapsize(32,32),m_tileCount(0),m_tileSetCount(0),
@@ -8,7 +11,7 @@ m_mapGravity(512.f),m_loadNextMap(false),
 m_currentState(l_currentState)
 {
     m_context->m_gameMap = this;
-    LoadTiles("tiles.cfg");
+    LoadTiles("resources/tiles.cfg");
 }
 
 Map::~Map()
@@ -24,8 +27,13 @@ Tile* Map::GetTile(unsigned int l_x, unsigned int l_y)
     return (itr != m_tileMap.end() ? itr->second : nullptr);
 }
 
+unsigned int Map::GetTileSize(){ return Sheet::Tile_Size;}
+
 float Map::GetGravity()const { return m_mapGravity;}
 
+const sf::Vector2u& Map::GetMapSize()const{ return m_maxMapsize;}
+const sf::Vector2f& Map::GetPlayerStart()const{ return m_playerStart;}
+TileInfo* Map::GetDefaultTile(){ return &m_defaultTile;}
 unsigned int Map::ConvertCoords(unsigned int l_x, unsigned int l_y)
 {
     return (l_x*m_maxMapsize.x) + l_y;
@@ -115,7 +123,7 @@ void Map::PurgeTileSet()
 void Map::LoadTiles(const std::string& l_path)
 {
     std::ifstream file;
-    file.open("file path");
+    file.open(l_path);
     if(!file.is_open())
     {
         std::cout <<"Failed loading tile set file: " << l_path << std::endl;
@@ -149,13 +157,19 @@ void Map::LoadMap(const std::string& l_path)
 {
     std::ifstream map;
     map.open(l_path);
+    if(!map.is_open())
+    {
+        std::cout << "Cannot open : " << l_path << std::endl;
+    }
+    EntityManager* entityMgr = m_context->m_entityManager;
+    int playerId = -1;
     if(map.is_open())
     {
         std::string line;
         while(std::getline(map,line))
         {
             if(line[0] == '|') continue;
-            std::stringstream keystream;
+            std::stringstream keystream(line);
             std::string type;
             keystream >> type;
 
@@ -176,7 +190,7 @@ void Map::LoadMap(const std::string& l_path)
                 }
 
                 sf::Vector2i tileCoords;
-                keystream >> tileCoords.y >> tileCoords.y;
+                keystream >> tileCoords.x >> tileCoords.y;
                 if(tileCoords.x >m_maxMapsize.x || tileCoords.y > m_maxMapsize.y)
                 {
                     std::cout << "Tile is out of range: " << 
@@ -223,6 +237,17 @@ void Map::LoadMap(const std::string& l_path)
 
                 m_background.setScale(scaleFactors);
             }
+            else if(type == "PLAYER")
+            {
+                if (playerId != -1){ continue; }
+                // Set up the player position here.
+                playerId = entityMgr->Add(EntityType::Player);
+                if (playerId < 0){ continue; }
+                float playerX = 0; float playerY = 0;
+                keystream >> playerX >> playerY;
+                entityMgr->Find(playerId)->SetPosition(playerX,playerY);
+                m_playerStart = sf::Vector2f(playerX, playerY);
+            } 
             else if(type == "SIZE")
             {
                 keystream >> m_maxMapsize.x >> m_maxMapsize.y;

@@ -2,8 +2,11 @@
 #include "../shared_context.hpp"
 #include "../State_System/base_state.hpp"
 #include "../State_System/state_manager.hpp"
+#include "../Entity_Component_System/entity_manager.hpp"
 #include "tile.hpp"
 #include <unordered_map>
+
+//enum Sheet{ Tile_Size = 32, Sheet_Width = 256, Sheet_Height = 256 };
 
 using TileMap = std::unordered_map<unsigned int,Tile*>;
 using TileSet = std::unordered_map<TileId,TileInfo*>;
@@ -15,6 +18,7 @@ class Map
         ~Map();
         
         Tile* GetTile(unsigned int l_x,unsigned int l_y);
+        unsigned int GetTileSize();
         TileInfo* GetDefaultTile();
         float GetGravity()const;
         const sf::Vector2u& GetMapSize()const;
