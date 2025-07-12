@@ -5,13 +5,7 @@
 #include "../Event_System/event_manager.hpp"
 #include <functional>
 #include <vector>
-
-struct SharedContext
-{
-    SharedContext():m_wind(nullptr),m_eventManager(nullptr){}
-    Window* m_wind;
-    EventManager* m_eventManager;
-};
+#include "../shared_context.hpp"
 
 //container for states
 using StateContainer = std::vector<std::pair<StateType,BaseState*>>;
