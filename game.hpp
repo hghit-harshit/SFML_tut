@@ -1,6 +1,8 @@
 #pragma once
 #include "Window_System/window.hpp"
 #include "State_System/state_manager.hpp"
+#include "shared_context.hpp"
+#include "Resource_System/texture_manager.hpp"
 class Game
 {
     public:

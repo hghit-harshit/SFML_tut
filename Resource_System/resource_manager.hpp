@@ -1,5 +1,5 @@
 #pragma once
-#include "utilities.hpp"
+//#include "utilities.hpp"
 #include <unordered_map>
 #include <string>
 #include <fstream>
@@ -173,7 +173,7 @@ template <typename Derived, typename T>
 void ResourceManager<Derived, T>::LoadPaths(const std::string &l_pathFile)
 {
     std::ifstream paths;
-    paths.open(Utils::GetWorkingDirectory + l_pathFile);
+    paths.open(l_pathFile)//paths.open(Utils::GetWorkingDirectory + l_pathFile);
     if (!paths.is_open())
     {
         std::cerr << "Cannot open path file " << l_pathFile << '\n';

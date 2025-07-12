@@ -15,6 +15,7 @@ m_window("My Game",sf::Vector2u(800,600))
     m_context.m_wind = &m_window;
     //if (m_stateManager.GetContext()->m_wind.GetRenderWindow() == nullptr)std::cout << "Buggg\n";
     m_context.m_eventManager = m_window.GetEventManager();
+    m_context.m_textureManager = new TextureManager();
     if (m_context.m_wind == nullptr)std::cout << "bug yhin nikslega!\n";
     m_stateManager = std::make_unique<StateManager>(&m_context);
     m_stateManager->SwitchTo(StateType::Intro);
