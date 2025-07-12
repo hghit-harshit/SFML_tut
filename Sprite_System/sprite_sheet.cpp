@@ -37,6 +37,10 @@ void SpriteSheet::SetDirection(const Direction& l_dir)
     m_animationCurrent->CropSprite(); 
 }
 
+sf::Vector2u SpriteSheet::GetSpriteSize()const{ return m_spriteSize; }
+sf::Vector2f SpriteSheet::GetSpritePosition()const{ return m_sprite.getPosition(); }
+Direction SpriteSheet::GetDirection()const{ return m_direction; }
+
 void SpriteSheet::CropSprite(const sf::IntRect& l_rect)
 {
     m_sprite.setTextureRect(l_rect);
@@ -69,8 +73,11 @@ const bool& l_play, const bool& l_loop)
     return true;
 }
 
+Anim_Base* SpriteSheet::GetCurrentAnim(){ return m_animationCurrent;}
+
 void SpriteSheet::Update(const float& l_dt)
 {
+    if (m_animationCurrent == nullptr)return;
     m_animationCurrent->Update(l_dt);
 }
 
@@ -159,4 +166,5 @@ bool SpriteSheet::LoadSheet(const std::string& l_file)
             }
         }
     }
+    return true;
 }

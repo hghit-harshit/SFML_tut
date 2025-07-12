@@ -4,13 +4,14 @@
 #include "game_state.hpp"
 #include "paused_state.hpp"
 #include <iostream>
+#include <cassert>
 
 StateManager::StateManager(SharedContext* l_shared):m_shared(l_shared)
 {
     RegisterState<State_Intro>(StateType::Intro);
-    CreateState(StateType::Intro);
+    //CreateState(StateType::Intro);
     RegisterState<State_MainMenu>(StateType::MainMenu);
-    CreateState(StateType::MainMenu);
+    //CreateState(StateType::MainMenu);
     RegisterState<State_Game>(StateType::Game);
     RegisterState<State_Paused>(StateType::Paused);
     //CreateState(StateType::Game);
@@ -137,7 +138,9 @@ void StateManager::CreateState(const StateType& l_type)
     if(newState == m_stateFactory.end()){return;}
     //std::cout << "Its getting inside state create\n";
     BaseState* state = newState->second();
-    state->m_view = m_shared->m_wind->GetRenderWindow()->getDefaultView();
+    sf::RenderWindow* wind = m_shared->m_wind->GetRenderWindow();
+    //assert(wind == nullptr);
+    state->m_view = wind->getDefaultView();
     m_states.emplace_back(l_type,state);
     state->OnCreate();
 }

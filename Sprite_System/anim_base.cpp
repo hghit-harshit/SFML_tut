@@ -4,7 +4,7 @@
 Anim_Base::Anim_Base(): m_frameCurrent(0), m_frameStart(0),
 m_frameEnd(0), m_frameRow(0), m_frameTime(0.f),
 m_elapsedTime(0), m_frameActionStart(-1), m_frameActionEnd(-1),
-m_loop(false), m_playing(false){}
+m_loop(false), m_playing(false),m_name("Base"){}
 
 Anim_Base::~Anim_Base(){}
 

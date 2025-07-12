@@ -14,8 +14,6 @@ class SpriteSheet
         SpriteSheet(TextureManager* l_textMgr);
         ~SpriteSheet();
 
-        void ReleaseSheet();
-
         void CropSprite(const sf::IntRect& l_rect);
         // Baic getters setter
         sf::Vector2u GetSpriteSize() const;
