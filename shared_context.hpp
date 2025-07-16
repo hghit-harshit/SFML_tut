@@ -4,6 +4,7 @@ class EventManager;
 class TextureManager;
 class Map;
 class EntityManager;
+class SystemManager;
 struct SharedContext
 {
     SharedContext():m_wind(nullptr),
@@ -15,4 +16,5 @@ struct SharedContext
     TextureManager* m_textureManager;
     Map* m_gameMap;
     EntityManager* m_entityManager;
+    SystemManager* m_systemManager;
 };
