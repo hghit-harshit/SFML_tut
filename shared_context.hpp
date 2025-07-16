@@ -10,7 +10,8 @@ struct SharedContext
     SharedContext():m_wind(nullptr),
     m_eventManager(nullptr),
     m_textureManager(nullptr),
-    m_entityManager(nullptr){}
+    m_entityManager(nullptr),
+    m_systemManager(nullptr){}
     Window* m_wind;
     EventManager* m_eventManager;
     TextureManager* m_textureManager;
