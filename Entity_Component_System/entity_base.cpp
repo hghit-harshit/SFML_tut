@@ -42,6 +42,12 @@ void EntityBase::SetAcceleration(float l_x, float l_y)
     m_acceleration = sf::Vector2f(l_x,l_y);
 }
 
+void EntityBase::SetName(const std::string& l_name)
+{
+	m_name = l_name;
+}
+
+
 std::string EntityBase::GetName(){ return m_name; }
 unsigned int EntityBase::GetId(){ return m_id; }
 EntityType EntityBase::GetType(){ return m_type; }
@@ -238,6 +244,7 @@ void EntityBase::ResolveCollision()
             m_velocity.y = 0;
             if(m_collidingOnY)continue;
             m_referenceTile = itr.m_tile;
+			if (m_referenceTile->m_deadly)EntityState::Dying;
             m_collidingOnY = true;
         }
     }

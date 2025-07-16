@@ -15,6 +15,14 @@ Player::Player(EntityManager* l_entityMgr)
     "Player_MoveRight",&Player::React,this);
     events->AddCallback<Player>(StateType::Game,
     "Player_Jump",&Player::React,this);
+	events->AddCallback<Player>(StateType::Game,
+		"Player_Attack", &Player::React, this);
+	// Set the player to the start position
+	/*sf::Vector2f startPos = m_entityManager->GetContext()->m_gameMap->GetPlayerStart();
+	SetPosition(startPos);
+	SetName("Player");*/
+	/*SetSize(sf::Vector2f(32, 32));
+	SetOrigin(sf::Vector2f(16, 16));*/
 }
 
 Player::~Player()
@@ -40,6 +48,11 @@ void Player::React(EventDetails* l_details)
     {
         Character::Attack();
     }
+	else if (l_details->m_name == "Player_Death")
+	{
+		SetState(EntityState::Dying);
+		m_entityManager->Remove(m_id);
+	}
 }
 
 void Player::OnEntityCollision(EntityBase* l_collider,bool l_attack){}

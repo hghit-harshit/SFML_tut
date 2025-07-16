@@ -1,7 +1,7 @@
 #pragma once
 
 #include "entity_base.hpp"
-#include "../Sprite_System/direction.hpp"
+#include "../direction.hpp"
 #include "../Sprite_System/sprite_sheet.hpp"
 #include "entity_types.hpp"
 class Character: public EntityBase

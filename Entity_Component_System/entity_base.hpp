@@ -32,7 +32,7 @@ class EntityBase
         void SetPosition(const sf::Vector2f& l_pos);
         void SetSize(const float& l_x, const float& l_y);
         void SetState(const EntityState& l_state);
-        
+        void SetName(const std::string& l_name);
         std::string GetName();
         unsigned int GetId();
         EntityType GetType();

@@ -36,11 +36,12 @@ void Character::Jump()
 void Character::Attack()
 {
     if (GetState() == EntityState::Dying ||
-        GetState() == EntityState::Jumping ||
+        //GetState() == EntityState::Jumping ||
         GetState() == EntityState::Hurt ||
         GetState() == EntityState::Attacking)
     { return;}
     
+	SetState(EntityState::Attacking);
 }
 
 void Character::GetHurt(const int& l_damage)
