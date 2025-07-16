@@ -3,7 +3,9 @@
 #include "State_System/state_manager.hpp"
 #include "shared_context.hpp"
 #include "Resource_System/texture_manager.hpp"
-#include "Entity_Component_System/entity_manager.hpp"
+//#include "Entity_Component_System/entity_manager.hpp"
+#include "ECS/Core/entity_manager.hpp"
+#include "ECS/Core/system_manager.hpp"
 class Game
 {
     public:
@@ -22,6 +24,7 @@ class Game
         Window m_window;
         SharedContext m_context;
         EntityManager m_entityManager;
+        SystemManager m_systemManager;
         StateManager m_stateManager;
         TextureManager m_textureManager;
         sf::Clock m_clock;

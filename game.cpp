@@ -4,12 +4,15 @@
 #include <memory>
 Game::Game():
 m_window("My Game",sf::Vector2u(1200,600)),m_stateManager(&m_context),
-m_entityManager(&m_context,100)
+m_entityManager(&m_systemManager,&m_textureManager)
 {
     std::cout << "Gets here\n";
     m_context.m_wind = &m_window;
     m_context.m_eventManager = m_window.GetEventManager();
     m_context.m_textureManager = new TextureManager();
+
+    m_systemManager.SetEntityManager(&m_entityManager);
+    m_context.m_systemManager = &m_systemManager;
     m_context.m_entityManager = &m_entityManager;
     m_stateManager.SwitchTo(StateType::Intro);
     
