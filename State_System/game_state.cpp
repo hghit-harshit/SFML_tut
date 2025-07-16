@@ -17,7 +17,7 @@ void State_Game::OnCreate()
     m_stateManager->GetContext()->m_wind->GetRenderWindow()->setView(m_view);
 
     m_gameMap = new Map(m_stateManager->GetContext(),this);
-    m_gameMap->LoadMap("resources/media/Maps/map1.map");
+    m_gameMap->LoadMap("resources/media/Maps/test_map.map");
 }
 
 void State_Game::OnDestroy()

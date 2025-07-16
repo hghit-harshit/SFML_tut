@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "../Resource_System/texture_manager.hpp"
 #include "anim_base.hpp"
-#include "direction.hpp"
+#include "../direction.hpp"
 #include "anim_directional.hpp"
 
 using Animations = std::unordered_map<std::string,Anim_Base*>;

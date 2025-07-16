@@ -30,7 +30,7 @@ State_Paused::State_Paused(StateManager* l_stateManager) : BaseState(l_stateMana
 void State_Paused::OnCreate()
 {
     SetTransparent(true);
-    m_font.loadFromFile("tuffy.ttf");
+    m_font.loadFromFile("resources/tuffy.ttf");
     m_text.setFont(m_font);
     m_text.setString(sf::String("Paused"));
     m_text.setCharacterSize(14);
