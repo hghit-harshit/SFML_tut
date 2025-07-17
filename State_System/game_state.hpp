@@ -13,12 +13,15 @@ class State_Game:public BaseState
         void Deactivate() override{};
 
         void Update(const sf::Time& l_time) override;
+        void UpdateCamera();
         void Draw() override;
 
         void MainMenu(EventDetails* l_details);
         void Pause(EventDetails* l_details);
+        void PlayerMove(EventDetails* l_details);
     private:
         Map* m_gameMap;
+        int m_playerId; // player id
 
 };
 
